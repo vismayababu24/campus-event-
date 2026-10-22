@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - CampusEvent</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+</head>
+<body>
+
+<!-- Sidebar -->
+<aside class="sidebar" id="sidebar">
+    <div class="sidebar-brand">
+        <div class="brand-icon">🎓</div>
+        <h1>CampusEvent</h1>
+        <p>Event Management System</p>
+    </div>
+    <nav class="sidebar-nav">
+        <div class="nav-section-label">Main Menu</div>
+        <a asp-controller="Home" asp-action="Dashboard"
+           class="@(ViewData["Title"]?.ToString() == "Dashboard" ? "active" : "")">
+            <span class="nav-icon">📊</span> Dashboard
+        </a>
+        <a asp-controller="Home" asp-action="Events"
+           class="@(ViewData["Title"]?.ToString() == "Events" ? "active" : "")">
+            <span class="nav-icon">📅</span> Events
+        </a>
+        <a asp-controller="Home" asp-action="Volunteers"
+           class="@(ViewData["Title"]?.ToString() == "Volunteers" ? "active" : "")">
+            <span class="nav-icon">🙋</span> Volunteers
+        </a>
+        <a asp-controller="Home" asp-action="Budget"
+           class="@(ViewData["Title"]?.ToString() == "Budget" ? "active" : "")">
+            <span class="nav-icon">💰</span> Budget
+        </a>
+    </nav>
+    <div class="sidebar-footer">© 2025 CampusEvent</div>
+</aside>
+
+<!-- Main -->
+<div class="main-wrapper">
+    <header class="topbar">
+        <span class="topbar-title">@ViewData["Title"]</span>
+        
+    </header>
+    <main class="page-content">
+        @RenderBody()
+    </main>
+</div>
+
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
+<script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+@await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

@@ -1,0 +1,53 @@
+@model CampusEvent.Models.Volunteer
+@{ ViewData["Title"] = "Add Volunteer"; }
+
+<div class="page-header">
+    <div class="page-header-left">
+        <h2>🙋 Add Volunteer</h2>
+        <p>Register a new volunteer for your events.</p>
+    </div>
+    <a asp-action="Volunteers" class="btn-cancel">← Back to Volunteers</a>
+</div>
+
+<div class="row justify-content-center">
+    <div class="col-lg-7">
+        <div class="form-card">
+            <div class="form-card-header">
+                <h3>Volunteer Details</h3>
+                <p>Fill in the volunteer's information</p>
+            </div>
+            <div class="form-card-body">
+                <form asp-action="CreateVolunteer" method="post">
+                    <div class="row g-3">
+                        <div class="col-md-6">
+                            <label asp-for="FullName" class="form-label">Full Name</label>
+                            <input asp-for="FullName" class="form-control" placeholder="e.g. Alice Johnson" />
+                            <span asp-validation-for="FullName" class="text-danger small"></span>
+                        </div>
+                        <div class="col-md-6">
+                            <label asp-for="Email" class="form-label">Email Address</label>
+                            <input asp-for="Email" class="form-control" placeholder="e.g. alice@campus.edu" />
+                            <span asp-validation-for="Email" class="text-danger small"></span>
+                        </div>
+                        <div class="col-md-6">
+                            <label asp-for="Role" class="form-label">Role</label>
+                            <input asp-for="Role" class="form-control" placeholder="e.g. Coordinator" />
+                        </div>
+                        <div class="col-md-6">
+                            <label asp-for="AssignedEvent" class="form-label">Assigned Event</label>
+                            <input asp-for="AssignedEvent" class="form-control" placeholder="e.g. Tech Fest 2025" />
+                        </div>
+                        <div class="col-12">
+                            <div class="form-actions">
+                                <button type="submit" class="btn-success-custom">✅ Save Volunteer</button>
+                                <a asp-action="Volunteers" class="btn-cancel">Cancel</a>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts { @await Html.PartialAsync("_ValidationScriptsPartial") }

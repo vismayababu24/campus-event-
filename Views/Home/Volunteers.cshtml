@@ -1,0 +1,74 @@
+@model List<CampusEvent.Models.Volunteer>
+@{ ViewData["Title"] = "Volunteers"; }
+
+@if (ViewBag.Message != null)
+{
+    <div class="alert-custom">✅ @ViewBag.Message</div>
+}
+
+<div class="page-header">
+    <div class="page-header-left">
+        <h2>🙋 Volunteers</h2>
+        <p>@Model.Count volunteer(s) registered</p>
+    </div>
+    <a asp-action="CreateVolunteer" class="btn-success-custom">＋ Add Volunteer</a>
+</div>
+
+<div class="card table-card">
+    <div class="table-responsive">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Full Name</th>
+                    <th>Email</th>
+                    <th>Role</th>
+                    <th>Assigned Event</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (!Model.Any())
+                {
+                    <tr>
+                        <td colspan="6">
+                            <div class="empty-state">
+                                <div class="empty-icon">🙍</div>
+                                <p>No volunteers yet. Click <strong>Add Volunteer</strong> to get started.</p>
+                            </div>
+                        </td>
+                    </tr>
+                }
+                @{ int i = 1; }
+                @foreach (var v in Model)
+                {
+                    <tr>
+                        <td><span style="color:var(--text-muted);font-size:.8rem;">@(i++)</span></td>
+                        <td>
+                            <div style="display:flex;align-items:center;gap:10px;">
+                                <div style="width:34px;height:34px;border-radius:50%;background:linear-gradient(135deg,#6c63ff,#4facfe);display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;font-size:.85rem;flex-shrink:0;">
+                                    @v.FullName[0]
+                                </div>
+                                <strong>@v.FullName</strong>
+                            </div>
+                        </td>
+                        <td style="color:var(--text-muted);">@v.Email</td>
+                        <td>
+                            <span style="background:#ede9fe;color:#6c63ff;padding:4px 10px;border-radius:20px;font-size:.75rem;font-weight:600;">@v.Role</span>
+                        </td>
+                        <td>@v.AssignedEvent</td>
+                        <td>
+                            <div style="display:flex;gap:6px;">
+                                <a asp-action="EditVolunteer" asp-route-id="@v.Id" class="btn-icon btn-edit" title="Edit">✏️</a>
+                                <form asp-action="DeleteVolunteer" method="post" class="d-inline" onsubmit="return confirm('Remove @v.FullName?')">
+                                    <input type="hidden" name="id" value="@v.Id" />
+                                    <button type="submit" class="btn-icon btn-delete" title="Delete">🗑️</button>
+                                </form>
+                            </div>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

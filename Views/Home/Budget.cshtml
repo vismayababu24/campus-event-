@@ -1,0 +1,71 @@
+@model List<CampusEvent.Models.BudgetRecord>
+@{ ViewData["Title"] = "Budget"; }
+
+@if (ViewBag.Message != null)
+{
+    <div class="alert-custom">✅ @ViewBag.Message</div>
+}
+
+<div class="page-header">
+    <div class="page-header-left">
+        <h2>💰 Budget Records</h2>
+        <p>@Model.Count expense record(s)</p>
+    </div>
+    <a asp-action="CreateBudget" class="btn-warning-custom">＋ Add Record</a>
+</div>
+
+<div class="alert-info-custom">
+    💡 Total Expenses: <strong>₹@ViewBag.Total.ToString("N0")</strong>
+</div>
+
+<div class="card table-card">
+    <div class="table-responsive">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Description</th>
+                    <th>Category</th>
+                    <th>Amount (₹)</th>
+                    <th>Date</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (!Model.Any())
+                {
+                    <tr>
+                        <td colspan="6">
+                            <div class="empty-state">
+                                <div class="empty-icon">📂</div>
+                                <p>No budget records yet. Click <strong>Add Record</strong> to get started.</p>
+                            </div>
+                        </td>
+                    </tr>
+                }
+                @{ int i = 1; }
+                @foreach (var b in Model)
+                {
+                    <tr>
+                        <td><span style="color:var(--text-muted);font-size:.8rem;">@(i++)</span></td>
+                        <td><strong>@b.Description</strong></td>
+                        <td>
+                            <span style="background:@(b.Category=="Infrastructure"?"#dbeafe":b.Category=="Food"?"#dcfce7":b.Category=="Marketing"?"#fce7f3":b.Category=="Transport"?"#fef9c3":"#f3f4f6");color:@(b.Category=="Infrastructure"?"#1d4ed8":b.Category=="Food"?"#15803d":b.Category=="Marketing"?"#be185d":b.Category=="Transport"?"#854d0e":"#374151");padding:4px 10px;border-radius:20px;font-size:.75rem;font-weight:600;">@b.Category</span>
+                        </td>
+                        <td><strong>₹@b.Amount.ToString("N0")</strong></td>
+                        <td>@b.ExpenseDate.ToString("dd MMM yyyy")</td>
+                        <td>
+                            <div style="display:flex;gap:6px;">
+                                <a asp-action="EditBudget" asp-route-id="@b.Id" class="btn-icon btn-edit" title="Edit">✏️</a>
+                                <form asp-action="DeleteBudget" method="post" class="d-inline" onsubmit="return confirm('Delete this record?')">
+                                    <input type="hidden" name="id" value="@b.Id" />
+                                    <button type="submit" class="btn-icon btn-delete" title="Delete">🗑️</button>
+                                </form>
+                            </div>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

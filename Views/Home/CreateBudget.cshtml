@@ -1,0 +1,60 @@
+@model CampusEvent.Models.BudgetRecord
+@{ ViewData["Title"] = "Add Budget Record"; }
+
+<div class="page-header">
+    <div class="page-header-left">
+        <h2>💰 Add Budget Record</h2>
+        <p>Log a new expense or budget entry.</p>
+    </div>
+    <a asp-action="Budget" class="btn-cancel">← Back to Budget</a>
+</div>
+
+<div class="row justify-content-center">
+    <div class="col-lg-7">
+        <div class="form-card">
+            <div class="form-card-header">
+                <h3>Expense Details</h3>
+                <p>Fill in the expense information</p>
+            </div>
+            <div class="form-card-body">
+                <form asp-action="CreateBudget" method="post">
+                    <div class="row g-3">
+                        <div class="col-12">
+                            <label asp-for="Description" class="form-label">Description</label>
+                            <input asp-for="Description" class="form-control" placeholder="e.g. Stage Setup" />
+                            <span asp-validation-for="Description" class="text-danger small"></span>
+                        </div>
+                        <div class="col-md-6">
+                            <label asp-for="Amount" class="form-label">Amount (₹)</label>
+                            <input asp-for="Amount" class="form-control" placeholder="0.00" />
+                            <span asp-validation-for="Amount" class="text-danger small"></span>
+                        </div>
+                        <div class="col-md-6">
+                            <label asp-for="Category" class="form-label">Category</label>
+                            <select asp-for="Category" class="form-select">
+                                <option>Infrastructure</option>
+                                <option>Food</option>
+                                <option>Marketing</option>
+                                <option>Transport</option>
+                                <option>Miscellaneous</option>
+                            </select>
+                            <span asp-validation-for="Category" class="text-danger small"></span>
+                        </div>
+                        <div class="col-md-6">
+                            <label asp-for="ExpenseDate" class="form-label">Expense Date</label>
+                            <input asp-for="ExpenseDate" type="date" class="form-control" />
+                        </div>
+                        <div class="col-12">
+                            <div class="form-actions">
+                                <button type="submit" class="btn-warning-custom">✅ Save Record</button>
+                                <a asp-action="Budget" class="btn-cancel">Cancel</a>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts { @await Html.PartialAsync("_ValidationScriptsPartial") }

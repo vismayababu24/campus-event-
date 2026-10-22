@@ -1,0 +1,91 @@
+@{ ViewData["Title"] = "Dashboard"; }
+
+@if (ViewBag.Message != null)
+{
+    <div class="alert-custom">✅ @ViewBag.Message</div>
+}
+
+<div class="page-header">
+    <div class="page-header-left">
+        <h2>Welcome back 👋</h2>
+        <p>Here's what's happening with your campus events today.</p>
+    </div>
+    <a asp-action="CreateEvent" class="btn-primary-custom">＋ New Event</a>
+</div>
+
+<!-- Stat Cards -->
+<div class="row g-3 mb-4">
+    <div class="col-sm-6 col-xl-3">
+        <a asp-action="Events" class="stat-card blue">
+            <span class="stat-icon">📅</span>
+            <div class="stat-value">@ViewBag.EventCount</div>
+            <div class="stat-label">Total Events</div>
+            <span class="stat-link">View all events →</span>
+        </a>
+    </div>
+    <div class="col-sm-6 col-xl-3">
+        <a asp-action="Volunteers" class="stat-card green">
+            <span class="stat-icon">🙋</span>
+            <div class="stat-value">@ViewBag.VolunteerCount</div>
+            <div class="stat-label">Volunteers</div>
+            <span class="stat-link">Manage volunteers →</span>
+        </a>
+    </div>
+    <div class="col-sm-6 col-xl-3">
+        <a asp-action="Budget" class="stat-card orange">
+            <span class="stat-icon">💼</span>
+            <div class="stat-value">₹@(((decimal)ViewBag.TotalBudget / 1000).ToString("0.0"))K</div>
+            <div class="stat-label">Total Budget</div>
+            <span class="stat-link">View budget →</span>
+        </a>
+    </div>
+    <div class="col-sm-6 col-xl-3">
+        <a asp-action="Budget" class="stat-card red">
+            <span class="stat-icon">📉</span>
+            <div class="stat-value">₹@(((decimal)ViewBag.TotalExpenses / 1000).ToString("0.0"))K</div>
+            <div class="stat-label">Total Expenses</div>
+            <span class="stat-link">View records →</span>
+        </a>
+    </div>
+</div>
+
+<!-- Recent Events Table -->
+<div class="card table-card">
+    <div class="card-header-custom" style="padding:20px 24px;">
+        <h5>📋 Recent Events</h5>
+        <a asp-action="Events" class="btn-primary-custom" style="font-size:.8rem;padding:7px 14px;">View All</a>
+    </div>
+    <div class="table-responsive" style="margin-top:4px;">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Event Name</th>
+                    <th>Date</th>
+                    <th>Venue</th>
+                    <th>Budget</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var ev in ViewBag.RecentEvents)
+                {
+                    <tr>
+                        <td><strong>@ev.EventName</strong></td>
+                        <td>@ev.EventDate.ToString("dd MMM yyyy")</td>
+                        <td>@ev.Venue</td>
+                        <td>₹@ev.Budget.ToString("N0")</td>
+                        <td>
+                            @{
+                                var cls = ev.Status == "Confirmed" ? "badge-confirmed"
+                                        : ev.Status == "Completed" ? "badge-completed"
+                                        : ev.Status == "Cancelled" ? "badge-cancelled"
+                                        : "badge-planned";
+                            }
+                            <span class="badge-status @cls">@ev.Status</span>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

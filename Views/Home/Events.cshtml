@@ -1,0 +1,75 @@
+@model List<CampusEvent.Models.Event>
+@{ ViewData["Title"] = "Events"; }
+
+@if (ViewBag.Message != null)
+{
+    <div class="alert-custom">✅ @ViewBag.Message</div>
+}
+
+<div class="page-header">
+    <div class="page-header-left">
+        <h2>📅 Events</h2>
+        <p>@Model.Count event(s) total</p>
+    </div>
+    <a asp-action="CreateEvent" class="btn-primary-custom">＋ Add Event</a>
+</div>
+
+<div class="card table-card">
+    <div class="table-responsive">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Event Name</th>
+                    <th>Date</th>
+                    <th>Venue</th>
+                    <th>Budget (₹)</th>
+                    <th>Status</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (!Model.Any())
+                {
+                    <tr>
+                        <td colspan="7">
+                            <div class="empty-state">
+                                <div class="empty-icon">📭</div>
+                                <p>No events yet. Click <strong>Add Event</strong> to get started.</p>
+                            </div>
+                        </td>
+                    </tr>
+                }
+                @{ int i = 1; }
+                @foreach (var ev in Model)
+                {
+                    <tr>
+                        <td><span style="color:var(--text-muted);font-size:.8rem;">@(i++)</span></td>
+                        <td><strong>@ev.EventName</strong></td>
+                        <td>@ev.EventDate.ToString("dd MMM yyyy")</td>
+                        <td>@ev.Venue</td>
+                        <td>₹@ev.Budget.ToString("N0")</td>
+                        <td>
+                            @{
+                                var cls = ev.Status == "Confirmed" ? "badge-confirmed"
+                                        : ev.Status == "Completed" ? "badge-completed"
+                                        : ev.Status == "Cancelled" ? "badge-cancelled"
+                                        : "badge-planned";
+                            }
+                            <span class="badge-status @cls">@ev.Status</span>
+                        </td>
+                        <td>
+                            <div style="display:flex;gap:6px;">
+                                <a asp-action="EditEvent" asp-route-id="@ev.Id" class="btn-icon btn-edit" title="Edit">✏️</a>
+                                <form asp-action="DeleteEvent" method="post" class="d-inline" onsubmit="return confirm('Delete @ev.EventName?')">
+                                    <input type="hidden" name="id" value="@ev.Id" />
+                                    <button type="submit" class="btn-icon btn-delete" title="Delete">🗑️</button>
+                                </form>
+                            </div>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

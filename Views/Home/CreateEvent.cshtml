@@ -1,0 +1,64 @@
+@model CampusEvent.Models.Event
+@{ ViewData["Title"] = "Add Event"; }
+
+<div class="page-header">
+    <div class="page-header-left">
+        <h2>📅 Add New Event</h2>
+        <p>Fill in the details to create a new campus event.</p>
+    </div>
+    <a asp-action="Events" class="btn-cancel">← Back to Events</a>
+</div>
+
+<div class="row justify-content-center">
+    <div class="col-lg-7">
+        <div class="form-card">
+            <div class="form-card-header">
+                <h3>Event Details</h3>
+                <p>All fields marked are required</p>
+            </div>
+            <div class="form-card-body">
+                <form asp-action="CreateEvent" method="post">
+                    <div class="row g-3">
+                        <div class="col-12">
+                            <label asp-for="EventName" class="form-label">Event Name</label>
+                            <input asp-for="EventName" class="form-control" placeholder="e.g. Tech Fest 2025" />
+                            <span asp-validation-for="EventName" class="text-danger small"></span>
+                        </div>
+                        <div class="col-md-6">
+                            <label asp-for="EventDate" class="form-label">Event Date</label>
+                            <input asp-for="EventDate" type="date" class="form-control" />
+                            <span asp-validation-for="EventDate" class="text-danger small"></span>
+                        </div>
+                        <div class="col-md-6">
+                            <label asp-for="Status" class="form-label">Status</label>
+                            <select asp-for="Status" class="form-select">
+                                <option>Planned</option>
+                                <option>Confirmed</option>
+                                <option>Completed</option>
+                                <option>Cancelled</option>
+                            </select>
+                        </div>
+                        <div class="col-md-8">
+                            <label asp-for="Venue" class="form-label">Venue</label>
+                            <input asp-for="Venue" class="form-control" placeholder="e.g. Main Auditorium" />
+                            <span asp-validation-for="Venue" class="text-danger small"></span>
+                        </div>
+                        <div class="col-md-4">
+                            <label asp-for="Budget" class="form-label">Budget (₹)</label>
+                            <input asp-for="Budget" class="form-control" placeholder="0" />
+                            <span asp-validation-for="Budget" class="text-danger small"></span>
+                        </div>
+                        <div class="col-12">
+                            <div class="form-actions">
+                                <button type="submit" class="btn-primary-custom">✅ Save Event</button>
+                                <a asp-action="Events" class="btn-cancel">Cancel</a>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts { @await Html.PartialAsync("_ValidationScriptsPartial") }
